@@ -1,3 +1,5 @@
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/eanderson-ei/sws-viz/master?filepath=notebooks%2Findicator-3-2-clean.ipynb)
+
 # README
 
 
