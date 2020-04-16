@@ -4,3 +4,4 @@ plotly
 ipywidgets
 xlrd
 gunicorn
+dash
