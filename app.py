@@ -12,9 +12,9 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 # data read
-districts = pd.read_excel('data/raw/sws-data.xlsx', 'districts')
-pms = pd.read_excel('data/raw/sws-data.xlsx', 'pms')
-pm_data = pd.read_excel('data/raw/sws-data.xlsx', 'pm_data')
+districts = pd.read_csv('https://raw.githubusercontent.com/eanderson-ei/sws-viz/master/data/raw/districts.csv')
+pms = pd.read_csv('https://raw.githubusercontent.com/eanderson-ei/sws-viz/master/data/raw/pms.csv')
+pm_data = pd.read_csv('https://raw.githubusercontent.com/eanderson-ei/sws-viz/master/data/raw/pm_data.csv')
 
 df_temp = pd.merge(pm_data, pms, on=['district', 'pm_id'], how='left')
 df = pd.merge(df_temp, districts, on='district', how='left')
@@ -192,7 +192,7 @@ def create_fig1_2():
 
 # Indicator 1.3
 def create_fig1_3():
-    df13 = pd.read_excel('data/raw/sws-data.xlsx', '1-3')
+    df13 = pd.read_csv('https://raw.githubusercontent.com/eanderson-ei/sws-viz/master/data/raw/indicator-1-3.csv')
     df13_group = df13.groupby(['Coalition', 'Quarter and Fiscal Year of Measurement']).sum()
     df13_group.reset_index(inplace=True)
     
@@ -257,7 +257,7 @@ def create_fig1_3():
 
 # Indicator 5.1
 def create_fig5_1():
-    df51 = pd.read_excel('data/raw/sws-data.xlsx', '5-1')
+    df51 = pd.read_csv('https://raw.githubusercontent.com/eanderson-ei/sws-viz/master/data/raw/indicator-5-1.csv')
     df51['Type'] = df51['Type'].fillna('Not Specified')
     df51['Fiscal Year'] = [entry[:4] for entry in 
                            df51['Quarter and Fiscal Year of Measurement']]
@@ -369,19 +369,102 @@ def create_fig5_1():
 app.layout = html.Div(children=[
     html.H1('SWS Indicator Visualizations'),
     
-    html.Div('Updated visualizations for the 2019 MEL Plan Annex'),
-    
-    html.Br(),
+    dcc.Markdown("""
+                 Updated visualizations for the 2019 MEL Plan Annex.
+                 
+                 *All data and text are placeholder values and should be updated with 
+                 accurate data and descriptions before use.*
+                 """),
     
     html.Hr(),
     
-    dcc.Markdown('''
-                 ### **Indicator 3.2**
-                 
-                 
-                 Progress Marker ratings for SWS partners'
-                 vision of more sustainable services'''
-                 ),
+    dcc.Markdown(
+        """
+        ## Indicator 1.1
+        
+        Across all concept teams, 72 percent of WASH actors surveyed or interviewed reported
+        an improvement in understanding of WASH systems. The large disparities across project
+        teams are likely due to different data collection methods. However, of all Concepts,
+        Concept 4 is not demonstrating progression, and may need additional focus on this 
+        indicator in 2020.
+        """
+    ),
+    
+    html.Div(
+        className='row',
+        children=[
+            dcc.Graph(
+                className='six columns',
+                id='indicator1-1',
+                config={
+                    'displayModeBar': False
+                },
+                figure = create_fig1_1()
+            ),
+            dcc.Graph(
+                className='six columns',
+                id='indicator1-1-2020',
+                config={
+                    'displayModeBar': False
+                },
+                figure = create_fig1_1_2020()
+            )
+        ]
+    ),
+    
+    dcc.Markdown(
+        """
+        ## Indicator 1.2
+        
+        Concept teams  met the Life of Project target of 40 analyses in FY19. Analyses
+        conducted during the reporting period include Network Analyses (2), Financial
+        Analyses (1), an a Building Block Assessment (1).
+        """
+    ),
+    
+    dcc.Graph(
+        className='row',
+        id='indicator1-2',
+        config={
+            'displayModeBar': False
+        },
+        figure = create_fig1_2()
+    ),
+    
+    dcc.Markdown(
+        """
+        ## Indicator 1.3
+        
+        Concept teams reached a combined 838 stakeholders with findings from systems
+        analyses this period. Outreach activities included coalition meetings, meetings
+        with specified stakeholders, conferences and workshops. 
+        """
+    ),
+    
+    dcc.Graph(
+        className='row',
+        id='indicator1-3',
+        config={
+            'displayModeBar': False
+        },
+        figure = create_fig1_3()
+    ),
+    
+    html.Hr(),
+    
+    dcc.Markdown(
+        """
+        ## Indicator 3.2
+        
+        Coalition partners measure progress towards a vision of more sustainable
+        services through progress markers. Progress markers vary by partner. 
+        Progress markers are catagorized as 'Expect to See', 'Like to See', and 
+        'Love to See'.
+        
+        **Explore the progress made by Concept Teams or Districts using the 
+        dropdown menus below**.
+        """
+    ),
     
     html.Div(
         className='row',
@@ -394,14 +477,16 @@ app.layout = html.Div(children=[
                     {'label': 'District', 'value': 'district'}
                 ],
                 value='district',
-                placeholder='Select a group'
+                placeholder='Select a group',
+                clearable=False
             ),
             dcc.Dropdown(
                 className='six columns',
                 id='group-select',
                 options=district_options,                
                 value=district_options[0]['value'],
-                placeholder='Select a concept or district'
+                placeholder='Select a concept or district',
+                clearable=False
             )
         ]
     ),
@@ -428,44 +513,14 @@ app.layout = html.Div(children=[
     
     html.Hr(),
     
-    html.Div(
-        className='row',
-        children=[
-            dcc.Graph(
-                className='six columns',
-                id='indicator1-1',
-                config={
-                    'displayModeBar': False
-                },
-                figure = create_fig1_1()
-            ),
-            dcc.Graph(
-                className='six columns',
-                id='indicator1-1-2020',
-                config={
-                    'displayModeBar': False
-                },
-                figure = create_fig1_1_2020()
-            )
-        ]
-    ),
-    
-    dcc.Graph(
-        className='row',
-        id='indicator1-2',
-        config={
-            'displayModeBar': False
-        },
-        figure = create_fig1_2()
-    ),
-    
-    dcc.Graph(
-        className='row',
-        id='indicator1-3',
-        config={
-            'displayModeBar': False
-        },
-        figure = create_fig1_3()
+    dcc.Markdown(
+        """
+        ## Indicator 5.1
+        
+        SWS produced a combined 47 knowledge products and presentations in the first half
+        of FY19. Overall, the project has completed 111 knowledge products and presentations,
+        significantly exceeding the LOP target of 40. 
+        """
     ),
     
     dcc.Graph(
