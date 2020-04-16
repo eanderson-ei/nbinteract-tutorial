@@ -11,6 +11,8 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
+server = app.server
+
 # data read
 districts = pd.read_csv('https://raw.githubusercontent.com/eanderson-ei/sws-viz/master/data/raw/districts.csv')
 pms = pd.read_csv('https://raw.githubusercontent.com/eanderson-ei/sws-viz/master/data/raw/pms.csv')
