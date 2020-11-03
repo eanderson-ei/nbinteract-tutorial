@@ -1,11 +1,11 @@
 .ipynb_checkpoints/
 assets/
-notebooks/
+notebooks/*
 !notebooks/MEL_ANNEX.ipynb
 app.py
 *.zip
 colors.txt
 Profile
 requirements.txt
-data/
+data/*
 !data/raw
