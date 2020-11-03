@@ -68,11 +68,19 @@ def create_fig1_1():
     # update xaxes
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgrey')
 
+    # update layout
     fig.update_layout(plot_bgcolor='rgba(0,0,0,0)',
                     title_text='<b>Indicator 1.1</b>' +
                     '<br>Percent of coalition participants reporting ' +
                     '<br>an improvement in WASH system understanding',
                     showlegend=False)
+    
+    # update fonts
+    fig.update_layout(
+        font=dict(
+            family='Gill Sans MT, Arial',
+            color="#5f5f5f"
+        ))
 
     # add target line
     fig.add_shape(dict(
