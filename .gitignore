@@ -1,7 +1,7 @@
 .ipynb_checkpoints/
 assets/
 notebooks/
-!notebooks/MEL ANNEX.ipynb
+!notebooks/MEL_ANNEX.ipynb
 app.py
 *.zip
 colors.txt
